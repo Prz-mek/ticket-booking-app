@@ -1,28 +1,36 @@
 package com.cinema.app.seat;
 
+import com.cinema.app.room.Room;
+import com.cinema.app.ticket.Ticket;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Seat {
+
     @Id
     @SequenceGenerator(name = "seat_sequence", sequenceName = "seat_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seat_sequence")
-    @Column(updatable = false)
-    Long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "room_id")
-    Long roomId;
+    private Room room;
 
-    @Column(updatable = false)
-    Integer number;
+    @OneToMany
+    @JoinColumn(name = "seat_id")
+    private List<Ticket> tickets;
 
-    @Column(updatable = false)
-    Integer row;
+    @Column(name = "number_in_row")
+    private Integer numberInRow;
 
-    @Column(nullable = false)
-    Boolean isReserved;
+    @Column(name = "seats_row")
+    private Integer row;
 }
